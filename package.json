@@ -1,0 +1,26 @@
+{
+  "name": "msdoc-form",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Table-first MS-DOC (.doc) parser and preview — Chinese administrative forms first",
+  "type": "module",
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "build": "pnpm --filter @msdoc-form/core build && pnpm --filter @msdoc-form/vue build && pnpm --filter @msdoc-form/react build",
+    "typecheck": "pnpm --filter @msdoc-form/core typecheck && pnpm --filter @msdoc-form/vue typecheck && pnpm --filter @msdoc-form/react typecheck",
+    "test": "pnpm --filter @msdoc-form/core test",
+    "fixtures": "pnpm --filter @msdoc-form/core fixtures",
+    "demo": "pnpm --filter @msdoc-form/demo dev",
+    "demo:build": "pnpm --filter @msdoc-form/demo build",
+    "pack:all": "pnpm build && node ./scripts/pack-all.mjs",
+    "clean": "pnpm -r exec -- node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vitest": "^3.0.0"
+  }
+}

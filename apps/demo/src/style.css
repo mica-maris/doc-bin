@@ -1,0 +1,120 @@
+:root {
+  --ink: #1c1914;
+  --paper: #f3eee4;
+  --accent: #0f5c4c;
+  --line: rgba(28, 25, 20, 0.12);
+  color: var(--ink);
+  font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(15, 92, 76, 0.12), transparent 42%),
+    radial-gradient(circle at 88% 0%, rgba(160, 96, 40, 0.1), transparent 40%),
+    linear-gradient(165deg, #f7f2e8, #ebe3d4 55%, #e4dccb);
+  min-height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+}
+
+.brand {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35em;
+  font-weight: 700;
+}
+
+.lede {
+  margin: 0 0 1.75rem;
+  max-width: 36em;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+  padding: 0.7rem 1.1rem;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #f7f2e8;
+  border-color: transparent;
+}
+
+.btn-primary:hover {
+  background: #0c4a3d;
+}
+
+.meta {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+.preview {
+  animation: rise 420ms ease both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.msdoc-warn {
+  background: #fff4d6;
+  border: 1px solid #e6c86a;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+
+.msdoc-error,
+.msdoc-unsupported,
+.msdoc-idle,
+.msdoc-loading {
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--line);
+}
