@@ -7,6 +7,7 @@
 | | |
 |--|--|
 | GitHub | https://github.com/mica-maris/doc-bin |
+| Gitee | https://gitee.com/onoye/doc-bin |
 | 在线 playground | https://mica-maris.github.io/doc-bin/ （GitHub Pages） |
 | npm | 暂未发布；本地 `pnpm pack:all` → `release/*.tgz` |
 
