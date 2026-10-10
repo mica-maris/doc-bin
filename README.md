@@ -9,7 +9,7 @@
 | GitHub | https://github.com/mica-maris/doc-bin |
 | Gitee | https://gitee.com/onoye/doc-bin |
 | 在线 playground | https://mica-maris.github.io/doc-bin/ （GitHub Pages） |
-| npm | 暂未发布；本地 `pnpm pack:all` → `release/*.tgz` |
+| npm | [`@docbin/core`](https://www.npmjs.com/package/@docbin/core) · [`@docbin/vue`](https://www.npmjs.com/package/@docbin/vue) · [`@docbin/react`](https://www.npmjs.com/package/@docbin/react)（v0.1.12） |
 
 ## 功能特色
 
@@ -39,7 +39,7 @@ pnpm add @docbin/core @docbin/react
 | `@docbin/vue` | `vue` ^3.5 |
 | `@docbin/react` | `react` ^18 \|\| ^19 |
 
-无 npm 登录时：`pnpm pack:all` 生成 `release/*.tgz`（不进 Git）。
+本地离线试装：`pnpm pack:all` → `release/*.tgz`（不进 Git）。
 
 ## 使用示例
 
