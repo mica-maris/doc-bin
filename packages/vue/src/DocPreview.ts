@@ -2,6 +2,7 @@ import {
   parseDoc,
   type ParseResult,
   type ParseStatus,
+  type ParseWarning,
 } from '@docbin/core';
 import {
   computed,
@@ -160,7 +161,9 @@ export const DocPreview = defineComponent({
           h('strong', '当前无法安全展示套表'),
           h(
             'p',
-            r.unsupported.map((u) => u.message).join('；') || '请下载原文件查看',
+            r.unsupported
+              .map((u: ParseWarning) => u.message)
+              .join('；') || '请下载原文件查看',
           ),
           r.plainText
             ? h('pre', { class: 'docbin-plain' }, r.plainText)
@@ -175,8 +178,8 @@ export const DocPreview = defineComponent({
               [
                 '部分构造已近似或跳过：',
                 r.warnings
-                  .filter((w) => w.code !== 'ENGINE_DOC_CODEC')
-                  .map((w) => w.message)
+                  .filter((w: ParseWarning) => w.code !== 'ENGINE_DOC_CODEC')
+                  .map((w: ParseWarning) => w.message)
                   .join('；') || '见 warnings',
               ],
             )
