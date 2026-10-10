@@ -30,17 +30,17 @@
 
 ```text
 通用阅读器：功能面铺开，套表翻车时用户无预期
-msdoc-form：套表优先 + 矩阵诚实 + fixture 回归 → 可预期的失败也好过静默错乱
+docbin：通用 `.doc` 引擎 + 矩阵诚实 + fixture 回归（套表为强验收样张）→ 可预期的失败也好过静默错乱
 ```
 
 ## v0.1 实现备注（2026-10-09）
 
 - **二进制层**：`doc-codec`（MIT）负责 CFB/FIB/Piece Table/PAPX/表格 TAP。  
-- **本仓边界**：映射为 `FormDocument` AST、套表 HTML、Vue/React 降级 UI、支持矩阵与 fixture。  
+- **本仓边界**：映射为 `DocDocument` AST、套表 HTML、Vue/React 降级 UI、支持矩阵与 fixture。  
 - **竖排**：`document-schema.js` 的 `TextDirection` 仅 `ltr`/`rtl`，中文竖排暂无法从底层可靠取出 → 矩阵标 🟡，CSS 预留。
 
 ## 结论
 
-值得开源；已锁定 **B · 观感像 + 套表 + 纯前端**。  
-v0.1 已交付可安装包 + demo；竖排与页眉页脚仍属后续加深项。  
-不做打印级 1:1，也不把 LibreOffice 转 PDF 当预览主路径。
+值得开源。金标已升格为：**套表预览与 WPS/Word 对照一致**（纯前端）。  
+v0.1.1 本机复杂套表：边框 OK、合并格 Δ、分页 FAIL → 下一刀优先分页（M5）。  
+不做任意文档像素级复刻，也不把服务端转 PDF 当预览主路径。

@@ -1,9 +1,18 @@
 {
-  "name": "@msdoc-form/core",
-  "version": "0.1.0",
-  "description": "Framework-agnostic MS-DOC parser → AST (table-first)",
+  "name": "@docbin/core",
+  "version": "0.1.12",
+  "description": "Framework-agnostic MS-DOC (.doc) parser → AST → HTML",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mica-maris/doc-bin.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/mica-maris/doc-bin#readme",
+  "bugs": {
+    "url": "https://github.com/mica-maris/doc-bin/issues"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -59,7 +59,25 @@ describe('parseDoc', () => {
     const merged = unitRow?.cells.find((c) => c.colSpan >= 3);
     expect(merged).toBeTruthy();
     expect(merged?.borders?.top).toBeTruthy();
-    expect(result.html).toContain('msdoc-table');
+    expect(result.html).toContain('docbin-table');
     expect(result.html).toContain('colspan=');
+  });
+
+  it('splits explicit page breaks into multiple preview pages', async () => {
+    const bytes = readFileSync(join(fixtures, 'paged.doc'));
+    const result = await parseDoc(bytes);
+    expect(['ok', 'partial']).toContain(result.status);
+    const blocks = result.document?.sections[0]?.blocks ?? [];
+    expect(blocks.some((b) => b.type === 'pageBreak')).toBe(true);
+    const pageCount = Number(
+      result.html?.match(/data-page-count="(\d+)"/)?.[1] ?? 0,
+    );
+    // 显式分页 + 表可能另起一页 → 至少 2 页
+    expect(pageCount).toBeGreaterThanOrEqual(2);
+    expect(result.html).toMatch(/data-page="1"/);
+    expect(result.plainText).toContain('封面说明页');
+    expect(result.plainText).toContain('第二页');
+    expect(result.html).toContain('封面说明页');
+    expect(result.html).toContain('第二页');
   });
 });

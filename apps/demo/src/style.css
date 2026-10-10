@@ -1,14 +1,18 @@
 :root {
-  --ink: #1c1914;
-  --paper: #f3eee4;
-  --accent: #0f5c4c;
-  --line: rgba(28, 25, 20, 0.12);
+  --desk: #1a1f27;
+  --desk-2: #242b36;
+  --panel: #2c3442;
+  --mist: #a8b2c1;
+  --ink: #e8edf4;
+  --mute: #8b95a5;
+  --line: rgba(232, 237, 244, 0.12);
+  --accent: #3aa89a;
+  --accent-dim: rgba(58, 168, 154, 0.18);
+  --paper-well: #151a21;
+  --focus: #6ecfc0;
   color: var(--ink);
-  font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", serif;
-  background:
-    radial-gradient(circle at 12% 8%, rgba(15, 92, 76, 0.12), transparent 42%),
-    radial-gradient(circle at 88% 0%, rgba(160, 96, 40, 0.1), transparent 40%),
-    linear-gradient(165deg, #f7f2e8, #ebe3d4 55%, #e4dccb);
+  font-family: "IBM Plex Sans", "Noto Sans SC", "Segoe UI", sans-serif;
+  background: var(--desk);
   min-height: 100%;
 }
 
@@ -16,83 +20,301 @@
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(58, 168, 154, 0.14), transparent 55%),
+    radial-gradient(circle at 100% 80%, rgba(70, 100, 140, 0.12), transparent 40%),
+    linear-gradient(180deg, var(--desk-2), var(--desk) 40%, #14181f);
 }
 
 #app {
   min-height: 100vh;
 }
 
-.shell {
-  max-width: 960px;
+code {
+  font-family: "IBM Plex Mono", "Cascadia Code", "Consolas", monospace;
+  font-size: 0.92em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.desk {
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 48px 20px 80px;
+  padding: 28px 20px 56px;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 28px;
+  align-items: end;
+  margin-bottom: 22px;
+  animation: settle 480ms ease both;
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  font-family: "IBM Plex Mono", "Cascadia Code", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 .brand {
-  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  margin: 0 0 0.45rem;
+  font-family: "Fraunces", "Source Han Serif SC", "Noto Serif SC", serif;
+  font-size: clamp(2.6rem, 6vw, 3.8rem);
+  font-weight: 600;
   letter-spacing: -0.03em;
-  margin: 0 0 0.35em;
-  font-weight: 700;
+  line-height: 1;
 }
 
 .lede {
-  margin: 0 0 1.75rem;
-  max-width: 36em;
-  font-size: 1.05rem;
+  margin: 0;
+  max-width: 34em;
+  color: var(--mist);
+  font-size: 1rem;
   line-height: 1.55;
-  opacity: 0.85;
 }
 
-.actions {
+.install-card {
+  border: 1px solid var(--line);
+  background: rgba(44, 52, 66, 0.65);
+  padding: 14px 16px 12px;
+  backdrop-filter: blur(8px);
+}
+
+.install-label {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  color: var(--mute);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.install-cmd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(58, 168, 154, 0.35);
+  background: var(--accent-dim);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.install-cmd:hover {
+  border-color: var(--accent);
+  background: rgba(58, 168, 154, 0.28);
+  transform: translateY(-1px);
+}
+
+.install-cmd:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.install-cmd code {
+  font-size: 0.84rem;
+  word-break: break-all;
+}
+
+.install-hint {
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.install-links {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  color: var(--mute);
+}
+
+.dot {
+  margin: 0 0.35em;
+}
+
+.console {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 14px 14px 10px;
+  margin-bottom: 18px;
+  animation: settle 520ms ease both;
+  animation-delay: 40ms;
+}
+
+.console-row {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 28px;
+  align-items: stretch;
+  justify-content: space-between;
 }
 
-.btn {
+.sample-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
   appearance: none;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--ink);
-  padding: 0.7rem 1.1rem;
+  padding: 0.55rem 0.95rem;
   font: inherit;
+  font-size: 0.92rem;
   cursor: pointer;
-  transition: transform 160ms ease, background 160ms ease;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
-.btn:hover {
+.chip:hover {
+  background: rgba(255, 255, 255, 0.08);
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.85);
 }
 
-.btn-primary {
+.chip:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.chip.active {
   background: var(--accent);
-  color: #f7f2e8;
   border-color: transparent;
+  color: #0c1412;
+  font-weight: 600;
 }
 
-.btn-primary:hover {
-  background: #0c4a3d;
+.chip-file {
+  display: inline-flex;
+  align-items: center;
 }
 
-.meta {
+.chip-go {
+  background: rgba(58, 168, 154, 0.2);
+  border-color: rgba(58, 168, 154, 0.4);
+}
+
+.url-form {
+  display: flex;
+  flex: 1 1 280px;
+  gap: 8px;
+  min-width: min(100%, 280px);
+}
+
+.url-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--paper-well);
+  color: var(--ink);
+  padding: 0.55rem 0.9rem;
+  font: inherit;
   font-size: 0.9rem;
-  opacity: 0.7;
-  margin-bottom: 16px;
 }
 
-.preview {
-  animation: rise 420ms ease both;
+.url-input::placeholder {
+  color: var(--mute);
 }
 
-@keyframes rise {
+.url-input:focus {
+  outline: 2px solid rgba(110, 207, 192, 0.45);
+  outline-offset: 1px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 0.82rem;
+  color: var(--mute);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--mute);
+  flex: 0 0 auto;
+}
+
+.status[data-kind='sample'] .status-dot,
+.status[data-kind='file'] .status-dot,
+.status[data-kind='url'] .status-dot {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.stage {
+  position: relative;
+  padding: 28px 12px 36px;
+  background:
+    linear-gradient(180deg, rgba(21, 26, 33, 0.2), transparent 30%),
+    var(--paper-well);
+  border: 1px solid var(--line);
+  min-height: 420px;
+  animation: settle 560ms ease both;
+  animation-delay: 80ms;
+}
+
+.stage-glow {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 40% at 50% 0%, rgba(58, 168, 154, 0.1), transparent 70%);
+}
+
+.paper-frame {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45));
+}
+
+.foot {
+  margin-top: 18px;
+  color: var(--mute);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.foot p {
+  margin: 0;
+}
+
+@keyframes settle {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -100,21 +322,53 @@ body {
   }
 }
 
-.msdoc-warn {
-  background: #fff4d6;
-  border: 1px solid #e6c86a;
+@media (prefers-reduced-motion: reduce) {
+  .topbar,
+  .console,
+  .stage,
+  .chip,
+  .install-cmd {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .desk {
+    padding: 20px 14px 40px;
+  }
+
+  .console-row {
+    flex-direction: column;
+  }
+
+  .url-form {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}
+
+/* DocPreview 壳层状态（与组件 class 对齐） */
+.docbin-warn {
+  background: #3a3218;
+  border: 1px solid #8a7428;
+  color: #f0e2a8;
   padding: 8px 12px;
   margin-bottom: 12px;
-  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
   font-size: 13px;
 }
 
-.msdoc-error,
-.msdoc-unsupported,
-.msdoc-idle,
-.msdoc-loading {
-  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+.docbin-error,
+.docbin-unsupported,
+.docbin-idle,
+.docbin-loading {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--line);
+  color: var(--mist);
 }

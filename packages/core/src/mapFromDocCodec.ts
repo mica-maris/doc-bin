@@ -2,7 +2,7 @@ import type {
   Block,
   BorderEdge,
   CellBorders,
-  FormDocument,
+  DocDocument,
   PageMargins,
   Paragraph,
   ParseWarning,
@@ -29,6 +29,11 @@ interface CodecParagraph {
   alignment?: 'left' | 'center' | 'right' | 'justify';
   spacingBeforePt?: number;
   spacingAfterPt?: number;
+  /** LSPD 倍数（dyaLine/240），如 1 = 单倍、1.5 = 1.5 倍 */
+  lineSpacing?: number;
+  indentLeftPt?: number;
+  indentRightPt?: number;
+  indentFirstLinePt?: number;
 }
 
 interface CodecBorder {
@@ -85,13 +90,18 @@ interface CodecDocument {
 }
 
 export interface MapResult {
-  document: FormDocument;
+  document: DocDocument;
   warnings: ParseWarning[];
   unsupported: ParseWarning[];
   plainText: string;
 }
 
-function colorToCss(color: unknown): string | undefined {
+/**
+ * document-schema / doc-codec 的 Color 分量在 **[0,1]**；
+ * 若误按 0–255 处理，红色 `{r:1,g:0,b:0}` 会变成 `#010000`。
+ * 同时兼容已是 0–255 的上游。
+ */
+export function colorToCss(color: unknown): string | undefined {
   if (typeof color === 'string') {
     if (color.startsWith('#')) return color;
     return undefined;
@@ -103,8 +113,10 @@ function colorToCss(color: unknown): string | undefined {
       && typeof c.g === 'number'
       && typeof c.b === 'number'
     ) {
-      const hex = (n: number) =>
-        Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0');
+      const unit = c.r <= 1 && c.g <= 1 && c.b <= 1;
+      const to8 = (n: number) =>
+        Math.max(0, Math.min(255, Math.round(unit ? n * 255 : n)));
+      const hex = (n: number) => to8(n).toString(16).padStart(2, '0');
       return `#${hex(c.r)}${hex(c.g)}${hex(c.b)}`;
     }
   }
@@ -174,6 +186,18 @@ function mapParagraph(p: CodecParagraph): Paragraph {
   }
   if (typeof p.spacingAfterPt === 'number') {
     para.spacingAfterPt = p.spacingAfterPt;
+  }
+  if (typeof p.lineSpacing === 'number' && p.lineSpacing > 0) {
+    para.lineSpacing = p.lineSpacing;
+  }
+  if (typeof p.indentLeftPt === 'number') {
+    para.indentLeftPt = p.indentLeftPt;
+  }
+  if (typeof p.indentRightPt === 'number') {
+    para.indentRightPt = p.indentRightPt;
+  }
+  if (typeof p.indentFirstLinePt === 'number') {
+    para.indentFirstLinePt = p.indentFirstLinePt;
   }
   return para;
 }
@@ -267,10 +291,7 @@ function mapBlocks(
       continue;
     }
     if (block.kind === 'pageBreak') {
-      warnings.push({
-        code: 'PAGE_BREAK_SKIPPED',
-        message: 'Manual page break recorded as warning (logical pages are heuristic)',
-      });
+      out.push({ type: 'pageBreak' });
       continue;
     }
     if (block.kind === 'image') {
@@ -291,6 +312,7 @@ function mapBlocks(
 function collectPlainText(blocks: Block[]): string {
   const parts: string[] = [];
   for (const block of blocks) {
+    if (block.type === 'pageBreak') continue;
     if (block.type === 'paragraph') {
       parts.push(block.runs.map((r) => r.text).join(''));
       continue;
@@ -326,7 +348,7 @@ export function mapFromDocCodec(raw: unknown): MapResult {
     };
   });
 
-  const document: FormDocument = {
+  const document: DocDocument = {
     title: doc.metadata?.title,
     sections,
   };

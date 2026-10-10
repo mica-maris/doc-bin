@@ -5,12 +5,13 @@ import {
   readDocContent,
 } from 'doc-codec';
 import { mapFromDocCodec } from './mapFromDocCodec.js';
+import { readDocumentGrids } from './readDocumentGrid.js';
 import { renderDocumentHtml } from './renderHtml.js';
 import type { ParseOptions, ParseResult } from './types.js';
 
 /**
  * 解析 `.doc`（Word 97–2003）为套表优先 AST。
- * v0.1：二进制读取委托 doc-codec（MIT），映射为本仓 FormDocument，并可选输出 HTML。
+ * v0.1：二进制读取委托 doc-codec（MIT），映射为本仓 DocDocument，并可选输出 HTML。
  */
 export async function parseDoc(
   input: ArrayBuffer | Uint8Array,
@@ -56,6 +57,16 @@ export async function parseDoc(
   try {
     const raw = readDocContent(bytes, options.password);
     const mapped = mapFromDocCodec(raw);
+    // doc-codec 不解析文档网格行距；从 Sepx 补读，预览按文件 pitch
+    try {
+      const grids = readDocumentGrids(bytes, options.password);
+      mapped.document.sections.forEach((section, i) => {
+        const g = grids[i] ?? grids[0];
+        if (g) section.documentGrid = g;
+      });
+    } catch {
+      // 网格读取失败不阻断主解析
+    }
     const wantHtml = options.renderHtml !== false;
     const html = wantHtml
       ? renderDocumentHtml(mapped.document, { includeStyleTag: true })
@@ -86,7 +97,7 @@ export async function parseDoc(
         {
           code: 'ENGINE_DOC_CODEC',
           message:
-            'Binary layer uses doc-codec; public API/AST/HTML owned by @msdoc-form/core',
+            'Binary layer uses doc-codec; public API/AST/HTML owned by @docbin/core',
         },
         ...mapped.warnings,
       ],

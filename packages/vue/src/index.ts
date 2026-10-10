@@ -1,13 +1,18 @@
-export { DocFormPreview, type DocFormSource } from './DocFormPreview.js';
+export {
+  DocPreview,
+  type DocFetchOptions,
+  type DocSource,
+} from './DocPreview.js';
+
 export {
   parseDoc,
   looksLikeDocCfb,
   renderDocumentHtml,
-  MSDOC_FORM_BASE_CSS,
-} from '@msdoc-form/core';
+  DOCBIN_BASE_CSS,
+} from '@docbin/core';
 export type {
-  FormDocument,
+  DocDocument,
   ParseResult,
   ParseStatus,
   ParseOptions,
-} from '@msdoc-form/core';
+} from '@docbin/core';

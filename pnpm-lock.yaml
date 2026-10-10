@@ -17,10 +17,10 @@ importers:
 
   apps/demo:
     dependencies:
-      '@msdoc-form/core':
+      '@docbin/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@msdoc-form/vue':
+      '@docbin/vue':
         specifier: workspace:*
         version: link:../../packages/vue
       vue:
@@ -52,7 +52,7 @@ importers:
 
   packages/react:
     dependencies:
-      '@msdoc-form/core':
+      '@docbin/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -68,7 +68,7 @@ importers:
 
   packages/vue:
     dependencies:
-      '@msdoc-form/core':
+      '@docbin/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:

@@ -135,8 +135,60 @@ const plain = {
   ],
 };
 
+const paged = {
+  kind: 'wordprocessing',
+  metadata: { title: '分页样张' },
+  sections: [
+    {
+      pageSize: { widthPt: 595.3, heightPt: 841.9 },
+      margins: { topPt: 56.7, rightPt: 56.7, bottomPt: 56.7, leftPt: 56.7 },
+      blocks: [
+        {
+          kind: 'paragraph',
+          runs: [{ text: '封面说明页', bold: true, sizePt: 22 }],
+          alignment: 'center',
+        },
+        {
+          kind: 'paragraph',
+          runs: [{ text: '本页之后为显式分页符。', sizePt: 12 }],
+          alignment: 'center',
+          spacingAfterPt: 24,
+        },
+        { kind: 'pageBreak' },
+        {
+          kind: 'paragraph',
+          runs: [{ text: '第二页 · 套表区', bold: true, sizePt: 16 }],
+          alignment: 'center',
+          spacingAfterPt: 12,
+        },
+        {
+          kind: 'table',
+          columns: [{ widthPt: 120 }, { widthPt: 300 }],
+          rows: [
+            {
+              heightPt: 32,
+              cells: [
+                { blocks: [p('项目', 'center')], borders },
+                { blocks: [p('内容填写区')], borders },
+              ],
+            },
+            {
+              heightPt: 64,
+              cells: [
+                { blocks: [p('备注', 'center')], borders },
+                { blocks: [p('分页回归：封面与套表应分成两张纸。')], borders },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 writeFileSync(join(smokeDir, 'form-merge.doc'), writeDocContent(formMerge));
 writeFileSync(join(smokeDir, 'plain-text.doc'), writeDocContent(plain));
+writeFileSync(join(smokeDir, 'paged.doc'), writeDocContent(paged));
 writeFileSync(
   join(smokeDir, 'SOURCES.md'),
   `# Smoke fixtures
@@ -147,6 +199,7 @@ writeFileSync(
 |------|------|
 | plain-text.doc | 纯文本 + 加粗 |
 | form-merge.doc | 合并单元格 + 边框 + 页边距 |
+| paged.doc | 显式分页符（封面 + 第二页套表） |
 `,
 );
 

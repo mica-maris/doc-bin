@@ -9,3 +9,17 @@ coverage
 *.tsbuildinfo
 .turbo
 apps/demo/dist
+tmp/
+
+# 本地 pack 产物（需要时 pnpm pack:all）
+release/*.tgz
+
+# 本机探针（常绑私有样张路径/关键字，不进公开仓）
+scripts/probe-*.mjs
+scripts/_patch-probes.mjs
+
+# 本机/单位正式空白表仅对照，不进开源仓
+fixtures/forms/*.doc
+fixtures/forms/*.DOC
+fixtures/forms/~$*
+fixtures/forms/SOURCES.md

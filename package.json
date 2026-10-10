@@ -1,20 +1,22 @@
 {
-  "name": "msdoc-form",
+  "name": "docbin",
   "private": true,
-  "version": "0.1.0",
-  "description": "Table-first MS-DOC (.doc) parser and preview — Chinese administrative forms first",
+  "version": "0.1.12",
+  "description": "General-purpose MS-DOC (.doc) parser and preview engine for the browser",
   "type": "module",
   "packageManager": "pnpm@9.15.9",
   "scripts": {
-    "build": "pnpm --filter @msdoc-form/core build && pnpm --filter @msdoc-form/vue build && pnpm --filter @msdoc-form/react build",
-    "typecheck": "pnpm --filter @msdoc-form/core typecheck && pnpm --filter @msdoc-form/vue typecheck && pnpm --filter @msdoc-form/react typecheck",
-    "test": "pnpm --filter @msdoc-form/core test",
-    "fixtures": "pnpm --filter @msdoc-form/core fixtures",
-    "demo": "pnpm --filter @msdoc-form/demo dev",
-    "demo:build": "pnpm --filter @msdoc-form/demo build",
+    "build": "pnpm --filter @docbin/core build && pnpm --filter @docbin/vue build && pnpm --filter @docbin/react build",
+    "typecheck": "pnpm --filter @docbin/core typecheck && pnpm --filter @docbin/vue typecheck && pnpm --filter @docbin/react typecheck",
+    "test": "pnpm --filter @docbin/core test",
+    "fixtures": "pnpm --filter @docbin/core fixtures",
+    "demo": "pnpm --filter @docbin/demo dev",
+    "demo:build": "pnpm --filter @docbin/demo build",
     "pack:all": "pnpm build && node ./scripts/pack-all.mjs",
+    "compare:wps": "pnpm --filter @docbin/core build && node ./scripts/compare-wps.mjs",
     "clean": "pnpm -r exec -- node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
+
   "engines": {
     "node": ">=20"
   },

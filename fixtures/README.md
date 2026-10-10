@@ -7,14 +7,16 @@
 | 目录/文件 | 用途 |
 |-----------|------|
 | `smoke/` | 极小合法 CFB / 自制最小表（可进 Git） |
-| `forms/` | 公文套表（脱敏后），体积大可用 Git LFS |
-| `*.expected.json` | 可选：AST / plainText 期望（后续） |
+| `forms/` | 本机复杂套表对照；`*.doc` **不进 Git**；`pnpm compare:wps -- fixtures/forms` |
+| `forms/SOURCES.example.md` | 本机来源记录模板（公开） |
+| `forms/SOURCES.md` | 本机私有笔记（已 gitignore） |
 
 ## 版权
 
-- 禁止提交未授权的单位正式空白表格原件（若版权不明）  
+- 禁止提交未授权的单位正式空白表格原件  
 - 优先：自己用 Word / `pnpm fixtures` 画「仿套表」  
-- 若使用公开模板，在本目录 `SOURCES.md` 注明来源与许可
+- 公开模板：在 `smoke/SOURCES.md` 或 PR 说明里写来源与许可；勿把内网路径写进仓  
+- 本机 `scripts/probe-*.mjs` 已 gitignore（常绑私有样张）；公开对照用 `pnpm compare:wps`
 
 ## 当前
 
@@ -22,3 +24,4 @@
 |------|------|
 | `smoke/plain-text.doc` | `pnpm fixtures`（doc-codec write） |
 | `smoke/form-merge.doc` | 同上：合并格 + 边框 + 页边距 |
+| `smoke/paged.doc` | 显式分页符（封面 + 第二页） |

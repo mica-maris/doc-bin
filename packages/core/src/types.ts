@@ -22,6 +22,14 @@ export interface Paragraph {
   align?: 'left' | 'center' | 'right' | 'justify';
   spacingBeforePt?: number;
   spacingAfterPt?: number;
+  /**
+   * 行距倍数（doc-codec：LSPD 乘数形式 dyaLine/240）。
+   * 未出现时表示文件未写显式行距 → 按 Word/MS-DOC 默认单倍（1.0）渲染。
+   */
+  lineSpacing?: number;
+  indentLeftPt?: number;
+  indentRightPt?: number;
+  indentFirstLinePt?: number;
 }
 
 export interface BorderEdge {
@@ -62,7 +70,12 @@ export interface Table {
   rows: TableRow[];
 }
 
-export type Block = Paragraph | Table;
+/** 显式分页符（来自 MS-DOC manual page break） */
+export interface PageBreak {
+  type: 'pageBreak';
+}
+
+export type Block = Paragraph | Table | PageBreak;
 
 export interface PageMargins {
   topPt: number;
@@ -76,20 +89,35 @@ export interface PageSize {
   heightPt: number;
 }
 
+/**
+ * 节级文档网格（Sepx）。
+ * - linePitchPt：dyaLinePitch（行网格）
+ * - charPitchDeltaPt：dxtCharSpace/4096，相对正文（Normal）字号的字符网格增量
+ * - clm：网格模式（1=行+字符网格，见 MS-DOC SClmOperand）
+ */
+export interface DocumentGrid {
+  linePitchPt: number;
+  clm?: number;
+  /** 相对 Normal 字号的字符网格增量（pt），来自 sprmSDxtCharSpace */
+  charPitchDeltaPt?: number;
+}
+
 export interface Section {
   blocks: Block[];
   pageSize?: PageSize;
   margins?: PageMargins;
+  /** 来自 Sepx，优先于段落缺省行距 */
+  documentGrid?: DocumentGrid;
 }
 
-export interface FormDocument {
+export interface DocDocument {
   title?: string;
   sections: Section[];
 }
 
 export interface ParseResult {
   status: ParseStatus;
-  document?: FormDocument;
+  document?: DocDocument;
   /** 纯文本降级用 */
   plainText?: string;
   /** 可选：直接可用的 HTML（含基础套表样式） */
