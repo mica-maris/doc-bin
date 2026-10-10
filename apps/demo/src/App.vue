@@ -12,6 +12,8 @@ const activeSample = ref<SampleName | null>(null);
 const copied = ref(false);
 
 const installCmd = 'pnpm add @docbin/core @docbin/vue';
+/** Pages 下为 /doc-bin/；本地 dev 为 /。勿写死绝对 /samples（会 404） */
+const sampleBase = `${import.meta.env.BASE_URL}samples/`;
 
 const sourceKind = computed(() => {
   if (activeSample.value) return 'sample';
@@ -20,8 +22,17 @@ const sourceKind = computed(() => {
   return 'idle';
 });
 
+function resolveDocUrl(raw: string): string {
+  const url = raw.trim();
+  // 兼容手写 /samples/xxx.doc（GitHub Pages 项目站不在域名根）
+  if (url.startsWith('/samples/')) {
+    return `${import.meta.env.BASE_URL}${url.slice(1)}`;
+  }
+  return url;
+}
+
 function loadSample(name: SampleName = 'form-merge.doc') {
-  source.value = `/samples/${name}`;
+  source.value = `${sampleBase}${name}`;
   activeSample.value = name;
   fileName.value = name;
   statusNote.value =
@@ -40,7 +51,7 @@ function onFile(ev: Event) {
 }
 
 function loadUrl() {
-  const url = urlInput.value.trim();
+  const url = resolveDocUrl(urlInput.value);
   if (!url) return;
   source.value = url;
   activeSample.value = null;
@@ -126,7 +137,7 @@ onMounted(() => {
             v-model="urlInput"
             class="url-input"
             type="text"
-            placeholder="远程 .doc URL（需 CORS）或 /samples/xxx.doc"
+            placeholder="远程 .doc URL（需 CORS）或 samples/xxx.doc"
             autocomplete="off"
           />
           <button class="chip chip-go" type="submit">预览 URL</button>
