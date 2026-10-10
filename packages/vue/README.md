@@ -1,5 +1,7 @@
 # @docbin/vue
 
+[![npm](https://img.shields.io/npm/v/@docbin/vue.svg)](https://www.npmjs.com/package/@docbin/vue)
+
 Vue 3 预览组件。安装与完整示例见仓库根目录 **[README.md](../../README.md)**（一页文档）。
 
 ```bash

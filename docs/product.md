@@ -54,9 +54,12 @@ File/ArrayBuffer
 
 ## 发布策略
 
-- npm scope：`@docbin/*`  
+- npm scope：`@docbin/*`（组织 [docbin](https://www.npmjs.com/org/docbin)；账号 `mica-maris`）  
+- **已上架**：[`@docbin/core`](https://www.npmjs.com/package/@docbin/core) / [`@docbin/vue`](https://www.npmjs.com/package/@docbin/vue) / [`@docbin/react`](https://www.npmjs.com/package/@docbin/react)（当前 **v0.1.12**）  
 - `core` 零 UI 依赖；`vue` / `react` peer 依赖对应框架  
-- semver：解析 AST 破坏性变更升 major；矩阵「降级」项收紧可 minor
+- semver：解析 AST 破坏性变更升 major；矩阵「降级」项收紧可 minor  
+- 再发版顺序：对齐三包 `version` → `pnpm build` + `pnpm test` → 官方 registry 先发 `core` 再发 `vue` / `react`（`workspace:*` 由 pnpm 改写为真实版本）  
+- 本机默认若指向 npmmirror：登录与 publish 须显式 `--registry=https://registry.npmjs.org/`；Granular token 需勾 Bypass 2FA
 
 ## 文档与预览落点（2026-10-10）
 
@@ -74,7 +77,7 @@ File/ArrayBuffer
 
 | 阶段 | 交付 |
 |------|------|
-| M0–M4 | 已交付 v0.1.x：可解析 + HTML + 组件 + 本地 tgz |
+| M0–M4 | 已交付 v0.1.x：可解析 + HTML + 组件；**npm 三包已发布**（本地 tgz 仅离线备用） |
 | **M5** | **分页对齐 WPS**（表按行拆页；本机私有复杂套表页数与对照工具对齐，待目视收口） |
 | **M6** | **合并格观感**（样张 Δ → OK；行列归属零错位） |
 | M7 | 竖排 / 页眉页脚按矩阵推进；对照笔记全绿关键项 |

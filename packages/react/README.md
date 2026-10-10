@@ -1,5 +1,7 @@
 # @docbin/react
 
+[![npm](https://img.shields.io/npm/v/@docbin/react.svg)](https://www.npmjs.com/package/@docbin/react)
+
 React 预览组件。安装与完整示例见仓库根目录 **[README.md](../../README.md)**（一页文档）。
 
 ```bash
